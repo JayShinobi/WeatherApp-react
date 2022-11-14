@@ -1,0 +1,8 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body{
+  background: url('https://images.hdqwalls.com/download/sunrise-landscape-minimalism-5k-ex-1920x1080.jpg') fixed center;
+
+}
