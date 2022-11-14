@@ -30,7 +30,7 @@ function App() {
   return (
     <div className="App">
     
-      <div className='search flex justify-center shadow-xl outline-none mt-11'>
+      <div className='search flex justify-center shadow-xl outline-none mt-10'>
         <input 
         value={cityname} 
         onChange={event => setCity(event.target.value)} 

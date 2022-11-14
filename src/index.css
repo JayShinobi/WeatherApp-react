@@ -6,3 +6,7 @@ body{
   background: url('https://images.hdqwalls.com/download/sunrise-landscape-minimalism-5k-ex-1920x1080.jpg') fixed center;
 
 }
+html, body, #app, #app>div {
+  height: 100%;
+  margin:0;
+}
