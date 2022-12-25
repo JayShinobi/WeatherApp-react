@@ -1,19 +1,33 @@
-import React,{useState} from 'react'
+import React,{useState, useEffect} from 'react'
 import axios from 'axios'
 import {
   UilTemperature,
   UilTear,
   UilWind,
- UilSearch
+ UilSearch,
 } from "@iconscout/react-unicons";
+import { LocationOn } from '@mui/icons-material';
+
 
 
 function App() {
+  useEffect(() => {
+    console.log("I have been mounted")
+    if(navigator.geolocation){
+      console.log('Geolocation is supported.')
+    }else{
+      console.log("Geolocation is not supported.")
+    }
+  }, [])
   const[data,setData] = useState({q: "berlin"})
   const[cityname, setCity] = useState('')
+  const[position, setPosition] = useState('')
+
+  
 
 
   const url = `https://api.openweathermap.org/data/2.5/weather?q=${cityname}&appid=214f1ceb18253e2e5f55ec476e728fc1&units=imperial`
+
  
   const searchLocation = (event) =>{
     if(event.key === 'Enter' || cityname !== ""){
@@ -25,6 +39,23 @@ function App() {
     }
   
   }
+  const getCurrentLocation = (position) =>{
+    if(navigator.geolocation){
+      navigator.geolocation.getCurrentPosition(position => { 
+        let lon = position.coords.longitude; 
+        let lat = position.coords.latitude; 
+        console.log('latitude is: ' + lon);
+        console.log('longitude is: '+ lat);
+        const geolocationUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=214f1ceb18253e2e5f55ec476e728fc1&units=imperial`;
+        axios.get(geolocationUrl).then((response) => {
+          setData(response.data)
+          console.log(response.data)
+        })
+        setPosition('')
+      })
+    }
+  }
+
 
 
   return (
@@ -37,6 +68,12 @@ function App() {
         placeholder = 'search city.....' 
         type='text'
         className='capitalize placeholder:lowercase mr-2'/>
+        <LocationOn 
+        size={25}
+        onChange = {event => setPosition(event.target.value)}
+        className= "cursor-pointer transition ease-out hover:scale-125"
+        onClick = {getCurrentLocation}
+        />
       <UilSearch
           size={25}
           onChange={event => setCity(event.target.value)} 
